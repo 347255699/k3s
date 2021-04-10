@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: homeassistant
+  labels:
+    name: homeassistant
+spec:
+  hostNetwork: true
+  containers:
+  - name: homeassistant
+    image: homeassistant/raspberrypi4-homeassistant:stable
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    volumeMounts:
+      - mountPath: /config
+        name: ha-config
+      - mountPath: /etc/localtime:ro
+        name: localtime
+  volumes:
+    - name: ha-config
+      hostPath:
+        path: /root/ha
+    - name: localtime
+      hostPath:
+        path: /etc/localtime
+  
